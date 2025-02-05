@@ -3,6 +3,8 @@ package com.example.AsteroidTracker.DTOs;
 import com.example.AsteroidTracker.Models.Asteroid;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AsteroidDTO {
     Integer id;
@@ -89,5 +91,13 @@ public class AsteroidDTO {
         dto.setEndDate(asteroid.getEndDate());
         dto.setRiskOfCollision(asteroid.getRiskOfCollision());
         return dto;
+    }
+
+    public static List<AsteroidDTO> convertToDTOList(List<Asteroid> asteroidList){
+        List<AsteroidDTO> asteroidDTOList = new ArrayList<>();
+        for(Asteroid asteroid: asteroidList){
+            asteroidDTOList.add(convertToDTO(asteroid));
+        }
+        return asteroidDTOList;
     }
 }

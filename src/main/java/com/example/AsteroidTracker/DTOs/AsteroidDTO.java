@@ -114,4 +114,11 @@ public class AsteroidDTO {
         return entity;
     }
 
+    public static List<Asteroid> convertFromDTOList(List<AsteroidDTO> asteroidDTOList) {
+        List<Asteroid> listOfAsteroids = new ArrayList<>();
+        for (AsteroidDTO dto : asteroidDTOList) {
+            listOfAsteroids.add(convertFromDTO(dto));
+        }
+        return listOfAsteroids;
+    }
 }

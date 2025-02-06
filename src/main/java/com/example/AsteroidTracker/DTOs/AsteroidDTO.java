@@ -2,6 +2,7 @@ package com.example.AsteroidTracker.DTOs;
 
 import com.example.AsteroidTracker.Models.Asteroid;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,8 @@ import java.util.List;
 public class AsteroidDTO {
     Integer id;
     String name;
-    LocalDateTime startDate; //close approach date to earth
-    LocalDateTime endDate;
+    LocalDate startDate; //close approach date to earth
+    LocalDate endDate;
     Double size;         //measured in diameter
     Long distance;
     Boolean riskOfCollision;
@@ -32,19 +33,19 @@ public class AsteroidDTO {
         this.name = name;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

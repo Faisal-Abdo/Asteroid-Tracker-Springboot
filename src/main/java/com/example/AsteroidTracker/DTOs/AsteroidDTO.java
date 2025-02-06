@@ -93,11 +93,25 @@ public class AsteroidDTO {
         return dto;
     }
 
-    public static List<AsteroidDTO> convertToDTOList(List<Asteroid> asteroidList){
+    public static List<AsteroidDTO> convertToDTOList(List<Asteroid> asteroidList) {
         List<AsteroidDTO> asteroidDTOList = new ArrayList<>();
-        for(Asteroid asteroid: asteroidList){
+        for (Asteroid asteroid : asteroidList) {
             asteroidDTOList.add(convertToDTO(asteroid));
         }
         return asteroidDTOList;
     }
+
+    public static Asteroid convertFromDTO(AsteroidDTO dto) {
+        Asteroid entity = new Asteroid();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setDistance(dto.getDistance());
+        entity.setSize(dto.getSize());
+        entity.setSpeed(dto.getSpeed());
+        entity.setStartDate(dto.getStartDate());
+        entity.setEndDate(dto.getEndDate());
+        entity.setRiskOfCollision(dto.getRiskOfCollision());
+        return entity;
+    }
+
 }

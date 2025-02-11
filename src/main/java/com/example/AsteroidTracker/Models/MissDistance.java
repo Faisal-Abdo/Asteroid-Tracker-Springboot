@@ -4,47 +4,47 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MissDistance {
     @JsonProperty("astronomical")
-    private String astronomical;
+    private Double astronomical;
 
     @JsonProperty("lunar")
-    private String lunar;
+    private Double lunar;
 
     @JsonProperty("kilometers")
-    private String kilometers;
+    private Double kilometers;
 
     @JsonProperty("miles")
-    private String miles;
+    private Double miles;
 
 
-    public String getAstronomical() {
+    public Double getAstronomical() {
         return astronomical;
     }
 
-    public void setAstronomical(String astronomical) {
+    public void setAstronomical(Double astronomical) {
         this.astronomical = astronomical;
     }
 
-    public String getLunar() {
+    public Double getLunar() {
         return lunar;
     }
 
-    public void setLunar(String lunar) {
+    public void setLunar(Double lunar) {
         this.lunar = lunar;
     }
 
-    public String getKilometers() {
+    public Double getKilometers() {
         return kilometers;
     }
 
-    public void setKilometers(String kilometers) {
+    public void setKilometers(Double kilometers) {
         this.kilometers = kilometers;
     }
 
-    public String getMiles() {
+    public Double getMiles() {
         return miles;
     }
 
-    public void setMiles(String miles) {
+    public void setMiles(Double miles) {
         this.miles = miles;
     }
 }

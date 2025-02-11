@@ -4,35 +4,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class RelativeVelocity {
     @JsonProperty("kilometers_per_second")
-    private String kilometersPerSecond;
+    private Double kilometersPerSecond;
 
     @JsonProperty("kilometers_per_hour")
-    private String kilometersPerHour;
+    private Double kilometersPerHour;
 
     @JsonProperty("miles_per_hour")
-    private String milesPerHour;
+    private Double milesPerHour;
 
-    public String getKilometersPerSecond() {
+    public Double getKilometersPerSecond() {
         return kilometersPerSecond;
     }
 
-    public void setKilometersPerSecond(String kilometersPerSecond) {
+    public void setKilometersPerSecond(Double kilometersPerSecond) {
         this.kilometersPerSecond = kilometersPerSecond;
     }
 
-    public String getKilometersPerHour() {
+    public Double getKilometersPerHour() {
         return kilometersPerHour;
     }
 
-    public void setKilometersPerHour(String kilometersPerHour) {
+    public void setKilometersPerHour(Double kilometersPerHour) {
         this.kilometersPerHour = kilometersPerHour;
     }
 
-    public String getMilesPerHour() {
+    public Double getMilesPerHour() {
         return milesPerHour;
     }
 
-    public void setMilesPerHour(String milesPerHour) {
+    public void setMilesPerHour(Double milesPerHour) {
         this.milesPerHour = milesPerHour;
     }
 }

@@ -4,24 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Measurement {
     @JsonProperty("estimated_diameter_min")
-    private double estimatedDiameterMin;
+    private Double estimatedDiameterMin;
 
     @JsonProperty("estimated_diameter_max")
-    private double estimatedDiameterMax;
+    private Double estimatedDiameterMax;
 
-    public double getEstimatedDiameterMin() {
+    public Double getEstimatedDiameterMin() {
         return estimatedDiameterMin;
     }
 
-    public void setEstimatedDiameterMin(double estimatedDiameterMin) {
+    public void setEstimatedDiameterMin(Double estimatedDiameterMin) {
         this.estimatedDiameterMin = estimatedDiameterMin;
     }
 
-    public double getEstimatedDiameterMax() {
+    public Double getEstimatedDiameterMax() {
         return estimatedDiameterMax;
     }
 
-    public void setEstimatedDiameterMax(double estimatedDiameterMax) {
+    public void setEstimatedDiameterMax(Double estimatedDiameterMax) {
         this.estimatedDiameterMax = estimatedDiameterMax;
     }
 }

@@ -2,12 +2,15 @@ package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class CloseApproachData {
     @JsonProperty("close_approach_date")
-    private String closeApproachDate;
+    private LocalDate closeApproachDate;
 
     @JsonProperty("close_approach_date_full")
-    private String closeApproachDateFull;
+    private LocalDateTime closeApproachDateFull;
 
     @JsonProperty("epoch_date_close_approach")
     private Long epochDateCloseApproach;
@@ -21,19 +24,19 @@ public class CloseApproachData {
     @JsonProperty("orbiting_body")
     private String orbitingBody;
 
-    public String getCloseApproachDate() {
+    public LocalDate getCloseApproachDate() {
         return closeApproachDate;
     }
 
-    public void setCloseApproachDate(String closeApproachDate) {
+    public void setCloseApproachDate(LocalDate closeApproachDate) {
         this.closeApproachDate = closeApproachDate;
     }
 
-    public String getCloseApproachDateFull() {
+    public LocalDateTime getCloseApproachDateFull() {
         return closeApproachDateFull;
     }
 
-    public void setCloseApproachDateFull(String closeApproachDateFull) {
+    public void setCloseApproachDateFull(LocalDateTime closeApproachDateFull) {
         this.closeApproachDateFull = closeApproachDateFull;
     }
 

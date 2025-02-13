@@ -1,5 +1,6 @@
 package com.example.AsteroidTracker.Services;
 
+import com.example.AsteroidTracker.DTOs.*;
 import com.example.AsteroidTracker.Models.*;
 import com.example.AsteroidTracker.Utils.HelperUtilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class AsteroidService {
@@ -24,7 +27,7 @@ public class AsteroidService {
         return "https://api.nasa.gov/neo/rest/v1/feed?api_key=" + apiKey;
     }
 
-    public AsteroidData getData() {
+    public AsteroidDataDTO getData() {
         ObjectMapper mapper = new ObjectMapper();
         AsteroidData asteroidData;
         try {
@@ -32,13 +35,13 @@ public class AsteroidService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return asteroidData;
+        return AsteroidDataDTO.convertToDTO(asteroidData);
     }
 
-    public NearEarthObjects getAsteroidByID(String id) {
-        NearEarthObjects asteroidObject = new NearEarthObjects();
-        for (List<NearEarthObjects> listOfAsteroids : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjects asteroid : listOfAsteroids) {
+    public NearEarthObjectsDTO getAsteroidByID(Integer id) {
+        NearEarthObjectsDTO asteroidObject = new NearEarthObjectsDTO();
+        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
+            for (NearEarthObjectsDTO asteroid : listOfAsteroids) {
                 if (HelperUtilities.isNotNull(id)) {
                     if (asteroid.getId().equals(id)) {
                         asteroidObject = asteroid;
@@ -50,13 +53,16 @@ public class AsteroidService {
         return asteroidObject;
     }
 
-    public List<NearEarthObjects> getAsteroidsByTodayDate() {
-        List<NearEarthObjects> todayAsteroids = new ArrayList<>();
+    public List<NearEarthObjectsDTO> getAsteroidsByTodayDate() {
+        List<NearEarthObjectsDTO> todayAsteroids = new ArrayList<>();
         LocalDate todayDate = java.time.LocalDate.now();
-        for (List<NearEarthObjects> listOfAsteroids : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjects asteroid : listOfAsteroids) {
-                for (CloseApproachData approachData : asteroid.getCloseApproachData()) {
-                    if (approachData.getCloseApproachDate().equals(todayDate)) {
+        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
+            for (NearEarthObjectsDTO asteroid : listOfAsteroids) {
+                for (CloseApproachDataDTO approachData : asteroid.getCloseApproachData()) {
+                    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    df = df.withLocale(Locale.ENGLISH);
+                    LocalDate closeApproachDate = LocalDate.parse(approachData.getCloseApproachDate(), df);
+                    if (closeApproachDate.equals(todayDate)) {
                         todayAsteroids.add(asteroid);
                     }
                 }
@@ -65,12 +71,15 @@ public class AsteroidService {
         return todayAsteroids;
     }
 
-    public List<NearEarthObjects> getAsteroidsWithinDateRange(LocalDate startDate, LocalDate endDate) {
-        List<NearEarthObjects> asteroidsWithinRange = new ArrayList<>();
-        for (List<NearEarthObjects> listOfAsteroids : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjects asteroid : listOfAsteroids) {
-                for (CloseApproachData approachData : asteroid.getCloseApproachData()) {
-                    if (approachData.getCloseApproachDate().isAfter(startDate) && approachData.getCloseApproachDate().isBefore(endDate)) {
+    public List<NearEarthObjectsDTO> getAsteroidsWithinDateRange(LocalDate startDate, LocalDate endDate) {
+        List<NearEarthObjectsDTO> asteroidsWithinRange = new ArrayList<>();
+        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
+            for (NearEarthObjectsDTO asteroid : listOfAsteroids) {
+                for (CloseApproachDataDTO approachData : asteroid.getCloseApproachData()) {
+                    DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    df = df.withLocale(Locale.ENGLISH);
+                    LocalDate closeApproachDate = LocalDate.parse(approachData.getCloseApproachDate(), df);
+                    if (closeApproachDate.isAfter(startDate) && closeApproachDate.isBefore(endDate)) {
                         asteroidsWithinRange.add(asteroid);
                     }
                 }
@@ -79,12 +88,12 @@ public class AsteroidService {
         return asteroidsWithinRange;
     }
 
-    public List<NearEarthObjects> getAsteroidsLargerThan(Double size) {
-        List<NearEarthObjects> asteroidsLargerThan = new ArrayList<>();
-        for (List<NearEarthObjects> listOfAsteroids : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjects asteroid : listOfAsteroids) {
-                EstimatedDiameter diameter = asteroid.getEstimatedDiameter();
-                Measurement measurement = diameter.getKilometers();
+    public List<NearEarthObjectsDTO> getAsteroidsLargerThan(Double size) {
+        List<NearEarthObjectsDTO> asteroidsLargerThan = new ArrayList<>();
+        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
+            for (NearEarthObjectsDTO asteroid : listOfAsteroids) {
+                EstimatedDiameterDTO diameter = asteroid.getEstimatedDiameter();
+                MeasurementDTO measurement = diameter.getKilometers();
                 Double avgSize = (measurement.getEstimatedDiameterMin() + measurement.getEstimatedDiameterMax()) / 2;
                 if (HelperUtilities.isNotNull(size) && avgSize > size) {
                     asteroidsLargerThan.add(asteroid);
@@ -94,11 +103,11 @@ public class AsteroidService {
         return asteroidsLargerThan;
     }
 
-    public List<NearEarthObjects> getPotentiallyHazardousAsteroids() {
-        List<NearEarthObjects> potentiallyHazardousAsteroids = new ArrayList<>();
-        for (List<NearEarthObjects> asteroidList : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjects asteroid : asteroidList) {
-                if (asteroid.getPotentiallyHazardousAsteroid()) {
+    public List<NearEarthObjectsDTO> getPotentiallyHazardousAsteroids() {
+        List<NearEarthObjectsDTO> potentiallyHazardousAsteroids = new ArrayList<>();
+        for (List<NearEarthObjectsDTO> asteroidList : getData().getNearEarthObjects().values()) {
+            for (NearEarthObjectsDTO asteroid : asteroidList) {
+                if (asteroid.isPotentiallyHazardousAsteroid()) {
                     potentiallyHazardousAsteroids.add(asteroid);
                 }
             }
@@ -106,21 +115,20 @@ public class AsteroidService {
         return potentiallyHazardousAsteroids;
     }
 
-    public List<NearEarthObjects> getClosestAsteroidsByDistance(Integer topN) {
-        List<NearEarthObjects> closestAsteroids = new ArrayList<>();
+    public List<NearEarthObjectsDTO> getClosestAsteroidsByDistance(Integer topN) {
+        List<NearEarthObjectsDTO> closestAsteroids = new ArrayList<>();
         // Collect all asteroids from different dates
-        for (List<NearEarthObjects> asteroidList : getData().getNearEarthObjects().values()) {
+        for (List<NearEarthObjectsDTO> asteroidList : getData().getNearEarthObjects().values()) {
             closestAsteroids.addAll(asteroidList);
         }
-        // Sort by closest distance (ascending)
-        closestAsteroids.sort(Comparator.comparingDouble(this::getMissDistance)); //Each individual asteroid will be called each time
+        closestAsteroids.sort(Comparator.comparingDouble(closestAsteriod -> closestAsteriod.getCloseApproachData().get(0).getMissDistance().getKilometers()));
         // Return the top N closest asteroids
         return closestAsteroids.subList(0, Math.min(topN, closestAsteroids.size()));  //Math.min so in case of user input a number too high
         // no indexOutOfBoundError will be faced
     }
 
 
-    // Helper method to extract the miss distance in kilometers
+   /* // Helper method to extract the miss distance in kilometers
     public Double getMissDistance(NearEarthObjects asteroid) {
         if (!asteroid.getCloseApproachData().isEmpty()) {
             for (CloseApproachData approachData : asteroid.getCloseApproachData()) {
@@ -128,36 +136,39 @@ public class AsteroidService {
             }
         }
         return Double.MAX_VALUE; // Assign max value if no distance available
-    }
+    }*/
 
-    public List<NearEarthObjects> getFastestAsteroids(Integer topN) {
-        List<NearEarthObjects> fastestAsteroids = new ArrayList<>();
-        for (List<NearEarthObjects> asteroidList : getData().getNearEarthObjects().values()) {
+    public List<NearEarthObjectsDTO> getFastestAsteroids(Integer topN) {
+        List<NearEarthObjectsDTO> fastestAsteroids = new ArrayList<>();
+        for (List<NearEarthObjectsDTO> asteroidList : getData().getNearEarthObjects().values()) {
             fastestAsteroids.addAll(asteroidList);
         }
-        fastestAsteroids.sort(Comparator.comparingDouble(this::getSpeed).reversed());
-        return fastestAsteroids.subList(0, Math.min(topN, fastestAsteroids.size()));
+        fastestAsteroids.sort(Comparator.comparingDouble(fastestAsteroid -> fastestAsteroid.getCloseApproachData().get(0).getRelativeVelocity().getKilometersPerHour()));
+        return fastestAsteroids.subList(0, Math.min(topN, fastestAsteroids.size())).reversed();
     }
 
-    public Double getSpeed(NearEarthObjects asteroid) {
+    /*public Double getSpeed(NearEarthObjects asteroid) {
         if (!asteroid.getCloseApproachData().isEmpty()) {
             for (CloseApproachData approachData : asteroid.getCloseApproachData()) {
                 return approachData.getRelativeVelocity().getKilometersPerHour();
             }
         }
         return Double.MAX_VALUE;
-    }
+    }*/
 
-    public List<NearEarthObjects> getLargestAsteroids(Integer topN) {
-        List<NearEarthObjects> largestAsteroids = new ArrayList<>();
-        for (List<NearEarthObjects> listOfAsteroids : getData().getNearEarthObjects().values()) {
+    public List<NearEarthObjectsDTO> getLargestAsteroids(Integer topN) {
+        List<NearEarthObjectsDTO> largestAsteroids = new ArrayList<>();
+        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
             largestAsteroids.addAll(listOfAsteroids);
         }
-        largestAsteroids.sort(Comparator.comparingDouble(this::getSize).reversed());
-        return largestAsteroids.subList(0, Math.min(topN, largestAsteroids.size()));
+        largestAsteroids.sort(Comparator.comparingDouble(largestAsteroid ->
+                (largestAsteroid.getEstimatedDiameter().getKilometers().getEstimatedDiameterMin() +
+                        largestAsteroid.getEstimatedDiameter().getKilometers().getEstimatedDiameterMax()) / 2));
+
+        return largestAsteroids.subList(0, Math.min(topN, largestAsteroids.size())).reversed();
     }
 
-    public Double getSize(NearEarthObjects asteroid) {
+    /*public Double getSize(NearEarthObjects asteroid) {
         if (HelperUtilities.isNotNull(asteroid.getEstimatedDiameter())) {
             for (List<NearEarthObjects> listOfAsteroids : getData().getNearEarthObjects().values()) {
                 for (NearEarthObjects object : listOfAsteroids) {
@@ -168,6 +179,5 @@ public class AsteroidService {
             }
         }
         return Double.MAX_VALUE;
-    }
-
+    }*/
 }

@@ -2,16 +2,15 @@ package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class RelativeVelocity {
-    @JsonProperty("kilometers_per_second")
     private Double kilometersPerSecond;
 
-    @JsonProperty("kilometers_per_hour")
     private Double kilometersPerHour;
 
-    @JsonProperty("miles_per_hour")
     private Double milesPerHour;
 
+    @JsonProperty("kilometers_per_second")
     public Double getKilometersPerSecond() {
         return kilometersPerSecond;
     }
@@ -20,6 +19,7 @@ public class RelativeVelocity {
         this.kilometersPerSecond = kilometersPerSecond;
     }
 
+    @JsonProperty("kilometers_per_hour")
     public Double getKilometersPerHour() {
         return kilometersPerHour;
     }
@@ -28,6 +28,7 @@ public class RelativeVelocity {
         this.kilometersPerHour = kilometersPerHour;
     }
 
+    @JsonProperty("miles_per_hour")
     public Double getMilesPerHour() {
         return milesPerHour;
     }

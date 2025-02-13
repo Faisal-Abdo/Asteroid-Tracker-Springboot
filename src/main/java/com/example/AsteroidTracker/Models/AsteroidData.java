@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
+
 public class AsteroidData {
-    @JsonProperty("links")
     private Links links;
 
-    @JsonProperty("element_count")
     private Integer elementCount;
 
-    @JsonProperty("near_earth_objects")
+    
     private Map<String, List<NearEarthObjects>> nearEarthObjects;
 
+    @JsonProperty("links")
     public Links getLinks() {
         return links;
     }
@@ -23,6 +23,7 @@ public class AsteroidData {
         this.links = links;
     }
 
+    @JsonProperty("element_count")
     public int getElementCount() {
         return elementCount;
     }
@@ -31,6 +32,7 @@ public class AsteroidData {
         this.elementCount = elementCount;
     }
 
+    @JsonProperty("near_earth_objects")
     public Map<String, List<NearEarthObjects>> getNearEarthObjects() {
         return nearEarthObjects;
     }

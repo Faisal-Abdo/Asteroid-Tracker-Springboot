@@ -2,44 +2,39 @@ package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class CloseApproachData {
-    @JsonProperty("close_approach_date")
-    private LocalDate closeApproachDate;
+    private String closeApproachDate;
 
-    @JsonProperty("close_approach_date_full")
-    private LocalDateTime closeApproachDateFull;
+    private String closeApproachDateFull;
 
-    @JsonProperty("epoch_date_close_approach")
     private Long epochDateCloseApproach;
 
-    @JsonProperty("relative_velocity")
     private RelativeVelocity relativeVelocity;
 
-    @JsonProperty("miss_distance")
     private MissDistance missDistance;
 
-    @JsonProperty("orbiting_body")
     private String orbitingBody;
 
-    public LocalDate getCloseApproachDate() {
+    @JsonProperty("close_approach_date")
+    public String getCloseApproachDate() {
         return closeApproachDate;
     }
 
-    public void setCloseApproachDate(LocalDate closeApproachDate) {
+    public void setCloseApproachDate(String closeApproachDate) {
         this.closeApproachDate = closeApproachDate;
     }
 
-    public LocalDateTime getCloseApproachDateFull() {
+    @JsonProperty("close_approach_date_full")
+    public String getCloseApproachDateFull() {
         return closeApproachDateFull;
     }
 
-    public void setCloseApproachDateFull(LocalDateTime closeApproachDateFull) {
+    public void setCloseApproachDateFull(String closeApproachDateFull) {
         this.closeApproachDateFull = closeApproachDateFull;
     }
 
+    @JsonProperty("relative_velocity")
     public RelativeVelocity getRelativeVelocity() {
         return relativeVelocity;
     }
@@ -48,6 +43,7 @@ public class CloseApproachData {
         this.relativeVelocity = relativeVelocity;
     }
 
+    @JsonProperty("miss_distance")
     public MissDistance getMissDistance() {
         return missDistance;
     }
@@ -56,6 +52,7 @@ public class CloseApproachData {
         this.missDistance = missDistance;
     }
 
+    @JsonProperty("orbiting_body")
     public String getOrbitingBody() {
         return orbitingBody;
     }
@@ -64,6 +61,7 @@ public class CloseApproachData {
         this.orbitingBody = orbitingBody;
     }
 
+    @JsonProperty("epoch_date_close_approach")
     public Long getEpochDateCloseApproach() {
         return epochDateCloseApproach;
     }

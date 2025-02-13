@@ -3,19 +3,16 @@ package com.example.AsteroidTracker.Models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MissDistance {
-    @JsonProperty("astronomical")
     private Double astronomical;
 
-    @JsonProperty("lunar")
     private Double lunar;
 
-    @JsonProperty("kilometers")
     private Double kilometers;
 
-    @JsonProperty("miles")
     private Double miles;
 
 
+    @JsonProperty("astronomical")
     public Double getAstronomical() {
         return astronomical;
     }
@@ -24,6 +21,7 @@ public class MissDistance {
         this.astronomical = astronomical;
     }
 
+    @JsonProperty("lunar")
     public Double getLunar() {
         return lunar;
     }
@@ -32,6 +30,7 @@ public class MissDistance {
         this.lunar = lunar;
     }
 
+    @JsonProperty("kilometers")
     public Double getKilometers() {
         return kilometers;
     }
@@ -40,6 +39,7 @@ public class MissDistance {
         this.kilometers = kilometers;
     }
 
+    @JsonProperty("miles")
     public Double getMiles() {
         return miles;
     }

@@ -1,18 +1,18 @@
 package com.example.AsteroidTracker.Models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Links {
 
-    @JsonProperty("next")
     private String next;
 
-    @JsonProperty("previous")
     private String previous;
 
-    @JsonProperty("self")
     private String self;
 
+    @JsonProperty("next")
     public String getNext() {
         return next;
     }
@@ -21,6 +21,7 @@ public class Links {
         this.next = next;
     }
 
+    @JsonProperty("previous")
     public String getPrevious() {
         return previous;
     }
@@ -29,6 +30,7 @@ public class Links {
         this.previous = previous;
     }
 
+    @JsonProperty("self")
     public String getSelf() {
         return self;
     }

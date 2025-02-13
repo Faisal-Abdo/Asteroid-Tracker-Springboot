@@ -1,43 +1,40 @@
 package com.example.AsteroidTracker.Models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"links", "id", "name", "neoReferenceId", "nasaJplUrl", "absolute_magnitude_h", "estimated_diameter", "is_potentially_hazardous_asteroid", "close_approach_data", "is_sentry_object"})
 public class NearEarthObjects {
-    @JsonProperty("links")
     private Links links;
 
-    @JsonProperty("id")
-    private String id;
-    
-    @JsonProperty("neo_reference_id")
+    private Integer nearEarthObjectNasaId;
+
     private String neoReferenceId;
 
-    @JsonProperty("name")
     private String name;
 
-    @JsonProperty("nasa_jpl_url")
     private String nasaJplUrl;
 
-    @JsonProperty("absolute_magnitude_h")
-    private double absoluteMagnitudeH6;
+    private double absoluteMagnitudeH;
 
-    @JsonProperty("estimated_diameter")
     private EstimatedDiameter estimatedDiameter;
 
-    @JsonProperty("is_potentially_hazardous_asteroid")
     private Boolean isPotentiallyHazardousAsteroid;
 
-    @JsonProperty("close_approach_data")
     private List<CloseApproachData> closeApproachData;
 
-    @JsonProperty("is_sentry_object")
     private Boolean isSentryObject;
 
-    @JsonProperty("sentry_data")
     private String sentryData;
 
+    @JsonProperty("links")
     public Links getLinks() {
         return links;
     }
@@ -46,14 +43,16 @@ public class NearEarthObjects {
         this.links = links;
     }
 
-    public String getId() {
-        return id;
+    @JsonProperty("id")
+    public Integer getNearEarthObjectNasaId() {
+        return nearEarthObjectNasaId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setNearEarthObjectNasaId(Integer nearEarthObjectNasaId) {
+        this.nearEarthObjectNasaId = nearEarthObjectNasaId;
     }
 
+    @JsonProperty("neo_reference_id")
     public String getNeoReferenceId() {
         return neoReferenceId;
     }
@@ -62,6 +61,7 @@ public class NearEarthObjects {
         this.neoReferenceId = neoReferenceId;
     }
 
+    @JsonProperty("name")
     public String getName() {
         return name;
     }
@@ -70,6 +70,7 @@ public class NearEarthObjects {
         this.name = name;
     }
 
+    @JsonProperty("nasa_jpl_url")
     public String getNasaJplUrl() {
         return nasaJplUrl;
     }
@@ -78,14 +79,16 @@ public class NearEarthObjects {
         this.nasaJplUrl = nasaJplUrl;
     }
 
+    @JsonProperty("absolute_magnitude_h")
     public double getAbsoluteMagnitudeH() {
-        return absoluteMagnitudeH6;
+        return absoluteMagnitudeH;
     }
 
     public void setAbsoluteMagnitudeH(double absoluteMagnitudeH) {
-        this.absoluteMagnitudeH6 = absoluteMagnitudeH;
+        this.absoluteMagnitudeH = absoluteMagnitudeH;
     }
 
+    @JsonProperty("estimated_diameter")
     public EstimatedDiameter getEstimatedDiameter() {
         return estimatedDiameter;
     }
@@ -94,38 +97,7 @@ public class NearEarthObjects {
         this.estimatedDiameter = estimatedDiameter;
     }
 
-    public boolean isPotentiallyHazardousAsteroid() {
-        return isPotentiallyHazardousAsteroid;
-    }
-
-    public void setPotentiallyHazardousAsteroid(boolean potentiallyHazardousAsteroid) {
-        this.isPotentiallyHazardousAsteroid = potentiallyHazardousAsteroid;
-    }
-
-    public List<CloseApproachData> getCloseApproachData() {
-        return closeApproachData;
-    }
-
-    public void setCloseApproachData(List<CloseApproachData> closeApproachData) {
-        this.closeApproachData = closeApproachData;
-    }
-
-    public boolean isSentryObject() {
-        return isSentryObject;
-    }
-
-    public void setSentryObject(boolean sentryObject) {
-        this.isSentryObject = sentryObject;
-    }
-
-    public double getAbsoluteMagnitudeH6() {
-        return absoluteMagnitudeH6;
-    }
-
-    public void setAbsoluteMagnitudeH6(double absoluteMagnitudeH6) {
-        this.absoluteMagnitudeH6 = absoluteMagnitudeH6;
-    }
-
+    @JsonProperty("is_potentially_hazardous_asteroid")
     public Boolean getPotentiallyHazardousAsteroid() {
         return isPotentiallyHazardousAsteroid;
     }
@@ -134,6 +106,16 @@ public class NearEarthObjects {
         isPotentiallyHazardousAsteroid = potentiallyHazardousAsteroid;
     }
 
+    @JsonProperty("close_approach_data")
+    public List<CloseApproachData> getCloseApproachData() {
+        return closeApproachData;
+    }
+
+    public void setCloseApproachData(List<CloseApproachData> closeApproachData) {
+        this.closeApproachData = closeApproachData;
+    }
+
+    @JsonProperty("is_sentry_object")
     public Boolean getSentryObject() {
         return isSentryObject;
     }
@@ -142,6 +124,7 @@ public class NearEarthObjects {
         isSentryObject = sentryObject;
     }
 
+    @JsonProperty("sentry_data")
     public String getSentryData() {
         return sentryData;
     }

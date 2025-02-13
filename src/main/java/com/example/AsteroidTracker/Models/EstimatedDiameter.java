@@ -2,19 +2,17 @@ package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class EstimatedDiameter {
-    @JsonProperty("kilometers")
     private Measurement kilometers;
 
-    @JsonProperty("meters")
     private Measurement meters;
 
-    @JsonProperty("miles")
     private Measurement miles;
 
-    @JsonProperty("feet")
     private Measurement feet;
 
+    @JsonProperty("kilometers")
     public Measurement getKilometers() {
         return kilometers;
     }
@@ -23,6 +21,7 @@ public class EstimatedDiameter {
         this.kilometers = kilometers;
     }
 
+    @JsonProperty("meters")
     public Measurement getMeters() {
         return meters;
     }
@@ -31,6 +30,7 @@ public class EstimatedDiameter {
         this.meters = meters;
     }
 
+    @JsonProperty("miles")
     public Measurement getMiles() {
         return miles;
     }
@@ -39,6 +39,7 @@ public class EstimatedDiameter {
         this.miles = miles;
     }
 
+    @JsonProperty("feet")
     public Measurement getFeet() {
         return feet;
     }

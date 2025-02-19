@@ -25,6 +25,8 @@ public class NearEarthObjectsDTO {
 
     private boolean isSentryObject;
 
+    private String aiSummary;
+
     public Integer getId() {
         return id;
     }
@@ -97,6 +99,14 @@ public class NearEarthObjectsDTO {
         isSentryObject = sentryObject;
     }
 
+    public String getAiSummary() {
+        return aiSummary;
+    }
+
+    public void setAiSummary(String aiSummary) {
+        this.aiSummary = aiSummary;
+    }
+
     // Convert Single Object
     public static NearEarthObjectsDTO convertToDTO(NearEarthObjects obj) {
         if (obj == null) return null;
@@ -113,6 +123,7 @@ public class NearEarthObjectsDTO {
                 .map(CloseApproachDataDTO::convertToDTO)
                 .collect(Collectors.toList())); // Convert list
         dto.setSentryObject(obj.getSentryObject());
+        dto.setAiSummary(obj.getAiSummary());
         return dto;
     }
 
@@ -158,5 +169,18 @@ public class NearEarthObjectsDTO {
         return entity;
     }
 
-
+    @Override
+    public String toString() {
+        return "{" +
+                "isSentryObject=" + isSentryObject +
+                ", closeApproachData=" + closeApproachData +
+                ", isPotentiallyHazardousAsteroid=" + isPotentiallyHazardousAsteroid +
+                ", estimatedDiameter=" + estimatedDiameter +
+                ", absoluteMagnitudeH=" + absoluteMagnitudeH +
+                ", nasaJplUrl='" + nasaJplUrl + '\'' +
+                ", name='" + name + '\'' +
+                ", neoReferenceId='" + neoReferenceId + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

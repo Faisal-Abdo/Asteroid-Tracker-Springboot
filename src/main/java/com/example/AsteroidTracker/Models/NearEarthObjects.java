@@ -1,20 +1,26 @@
 package com.example.AsteroidTracker.Models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"links", "id", "name", "neoReferenceId", "nasaJplUrl", "absolute_magnitude_h", "estimated_diameter", "is_potentially_hazardous_asteroid", "close_approach_data", "is_sentry_object"})
-public class NearEarthObjects {
-    private Links links;
-
+//@Entity
+public class NearEarthObjects extends BaseEntity {
+    //@Id
     private Integer nearEarthObjectNasaId;
+
+    //@OneToMany
+    private Links links;
 
     private String neoReferenceId;
 
@@ -24,15 +30,19 @@ public class NearEarthObjects {
 
     private double absoluteMagnitudeH;
 
+    //@OneToOne
     private EstimatedDiameter estimatedDiameter;
 
     private Boolean isPotentiallyHazardousAsteroid;
 
+    //@OneToOne
     private List<CloseApproachData> closeApproachData;
 
     private Boolean isSentryObject;
 
     private String sentryData;
+
+    private String aiSummary;
 
     @JsonProperty("links")
     public Links getLinks() {
@@ -131,5 +141,13 @@ public class NearEarthObjects {
 
     public void setSentryData(String sentryData) {
         this.sentryData = sentryData;
+    }
+
+    public String getAiSummary() {
+        return aiSummary;
+    }
+
+    public void setAiSummary(String aiSummary) {
+        this.aiSummary = aiSummary;
     }
 }

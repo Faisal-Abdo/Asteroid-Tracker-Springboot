@@ -49,4 +49,13 @@ public class CloseApproachDataDTO {
         entity.setRelativeVelocity(relativeVelocity.convertFromDTO());
         return entity;
     }
+
+    @Override
+    public String toString() {
+        return "CloseApproachDataDTO{" +
+                "closeApproachDate='" + closeApproachDate + '\'' +
+                ", missDistance=" + missDistance +
+                ", relativeVelocity=" + relativeVelocity +
+                '}';
+    }
 }

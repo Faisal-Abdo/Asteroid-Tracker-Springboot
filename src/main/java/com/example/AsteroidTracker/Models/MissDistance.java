@@ -1,8 +1,10 @@
 package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
 
-public class MissDistance {
+//@Entity
+public class MissDistance extends BaseEntity {
     private Double astronomical;
 
     private Double lunar;
@@ -46,5 +48,15 @@ public class MissDistance {
 
     public void setMiles(Double miles) {
         this.miles = miles;
+    }
+
+    @Override
+    public String toString() {
+        return "MissDistance{" +
+                "astronomical=" + astronomical +
+                ", lunar=" + lunar +
+                ", kilometers=" + kilometers +
+                ", miles=" + miles +
+                '}';
     }
 }

@@ -150,4 +150,22 @@ public class NearEarthObjects extends BaseEntity {
     public void setAiSummary(String aiSummary) {
         this.aiSummary = aiSummary;
     }
+
+    @Override
+    public String toString() {
+        return "NearEarthObjects{" +
+                "nearEarthObjectNasaId=" + nearEarthObjectNasaId +
+                ", links=" + links +
+                ", neoReferenceId='" + neoReferenceId + '\'' +
+                ", name='" + name + '\'' +
+                ", nasaJplUrl='" + nasaJplUrl + '\'' +
+                ", absoluteMagnitudeH=" + absoluteMagnitudeH +
+                ", estimatedDiameter=" + estimatedDiameter +
+                ", isPotentiallyHazardousAsteroid=" + isPotentiallyHazardousAsteroid +
+                ", closeApproachData=" + closeApproachData +
+                ", isSentryObject=" + isSentryObject +
+                ", sentryData='" + sentryData + '\'' +
+                ", aiSummary='" + aiSummary + '\'' +
+                '}';
+    }
 }

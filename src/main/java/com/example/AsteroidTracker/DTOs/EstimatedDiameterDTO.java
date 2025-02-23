@@ -81,4 +81,14 @@ public class EstimatedDiameterDTO {
                 .map(EstimatedDiameterDTO::convertFromDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "EstimatedDiameterDTO{" +
+                "kilometers=" + kilometers +
+                ", meters=" + meters +
+                ", miles=" + miles +
+                ", feet=" + feet +
+                '}';
+    }
 }

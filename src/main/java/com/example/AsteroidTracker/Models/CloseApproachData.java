@@ -1,17 +1,21 @@
 package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 
-
-public class CloseApproachData {
+//@Entity
+public class CloseApproachData extends BaseEntity{
     private String closeApproachDate;
 
     private String closeApproachDateFull;
 
     private Long epochDateCloseApproach;
 
+    //@OneToOne
     private RelativeVelocity relativeVelocity;
 
+    //@OneToOne
     private MissDistance missDistance;
 
     private String orbitingBody;
@@ -68,5 +72,17 @@ public class CloseApproachData {
 
     public void setEpochDateCloseApproach(Long epochDateCloseApproach) {
         this.epochDateCloseApproach = epochDateCloseApproach;
+    }
+
+    @Override
+    public String toString() {
+        return "CloseApproachData{" +
+                "closeApproachDate='" + closeApproachDate + '\'' +
+                ", closeApproachDateFull='" + closeApproachDateFull + '\'' +
+                ", epochDateCloseApproach=" + epochDateCloseApproach +
+                ", relativeVelocity=" + relativeVelocity +
+                ", missDistance=" + missDistance +
+                ", orbitingBody='" + orbitingBody + '\'' +
+                '}';
     }
 }

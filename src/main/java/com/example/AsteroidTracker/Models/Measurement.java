@@ -1,9 +1,10 @@
 package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
 
-
-public class Measurement {
+//@Entity
+public class Measurement extends BaseEntity {
     private Double estimatedDiameterMin;
 
     private Double estimatedDiameterMax;
@@ -24,5 +25,13 @@ public class Measurement {
 
     public void setEstimatedDiameterMax(Double estimatedDiameterMax) {
         this.estimatedDiameterMax = estimatedDiameterMax;
+    }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "estimatedDiameterMin=" + estimatedDiameterMin +
+                ", estimatedDiameterMax=" + estimatedDiameterMax +
+                '}';
     }
 }

@@ -1,7 +1,5 @@
 package com.example.AsteroidTracker.Utils;
 
-import com.example.AsteroidTracker.Models.NearEarthObjects;
-
 import java.util.List;
 
 public class HelperUtilities {

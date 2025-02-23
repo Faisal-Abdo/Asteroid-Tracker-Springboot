@@ -2,9 +2,11 @@ package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Links {
+//@Entity
+public class Links extends BaseEntity {
 
     private String next;
 
@@ -37,5 +39,14 @@ public class Links {
 
     public void setSelf(String self) {
         this.self = self;
+    }
+
+    @Override
+    public String toString() {
+        return "Links{" +
+                "next='" + next + '\'' +
+                ", previous='" + previous + '\'' +
+                ", self='" + self + '\'' +
+                '}';
     }
 }

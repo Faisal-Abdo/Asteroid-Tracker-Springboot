@@ -81,5 +81,15 @@ public class MissDistanceDTO {
                 .map(MissDistanceDTO::convertFromDTO)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "MissDistanceDTO{" +
+                "astronomical=" + astronomical +
+                ", lunar=" + lunar +
+                ", kilometers=" + kilometers +
+                ", miles=" + miles +
+                '}';
+    }
 }
 

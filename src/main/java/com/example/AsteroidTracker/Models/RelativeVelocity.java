@@ -1,9 +1,10 @@
 package com.example.AsteroidTracker.Models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
 
-
-public class RelativeVelocity {
+//@Entity
+public class RelativeVelocity extends BaseEntity {
     private Double kilometersPerSecond;
 
     private Double kilometersPerHour;
@@ -35,5 +36,14 @@ public class RelativeVelocity {
 
     public void setMilesPerHour(Double milesPerHour) {
         this.milesPerHour = milesPerHour;
+    }
+
+    @Override
+    public String toString() {
+        return "RelativeVelocity{" +
+                "kilometersPerSecond=" + kilometersPerSecond +
+                ", kilometersPerHour=" + kilometersPerHour +
+                ", milesPerHour=" + milesPerHour +
+                '}';
     }
 }

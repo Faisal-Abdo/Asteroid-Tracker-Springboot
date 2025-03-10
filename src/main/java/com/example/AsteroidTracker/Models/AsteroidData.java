@@ -5,13 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.Map;
 
-
-public class AsteroidData {
+//@Entity
+public class AsteroidData extends BaseEntity {
+    //@OneToOne
     private Links links;
-
     private Integer elementCount;
-
-    
+    //@OneToOne
     private Map<String, List<NearEarthObjects>> nearEarthObjects;
 
     @JsonProperty("links")

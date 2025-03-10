@@ -13,6 +13,8 @@ public class AsteroidDataDTO {
 
     private Map<String, List<NearEarthObjectsDTO>> nearEarthObjects;
 
+    private String aiSummary;
+
     public LinksDTO getLinks() {
         return links;
     }
@@ -35,6 +37,14 @@ public class AsteroidDataDTO {
 
     public void setNearEarthObjects(Map<String, List<NearEarthObjectsDTO>> nearEarthObjects) {
         this.nearEarthObjects = nearEarthObjects;
+    }
+
+    public String getAiSummary() {
+        return aiSummary;
+    }
+
+    public void setAiSummary(String aiSummary) {
+        this.aiSummary = aiSummary;
     }
 
     public static AsteroidDataDTO convertToDTO(AsteroidData entity){

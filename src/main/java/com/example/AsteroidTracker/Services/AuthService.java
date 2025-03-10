@@ -1,9 +1,9 @@
 package com.example.AsteroidTracker.Services;
 
+import com.example.AsteroidTracker.Config.UserRepository;
 import com.example.AsteroidTracker.DTOs.SignInRequestDTO;
 import com.example.AsteroidTracker.DTOs.SignUpRequestDTO;
 import com.example.AsteroidTracker.Models.User;
-import com.example.AsteroidTracker.Config.UserRepository;
 import com.example.AsteroidTracker.Utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +37,7 @@ public class AuthService {
     }
 
     public void signUp(SignUpRequestDTO dto) throws Exception {
-        if (userRepository.findByUsername(dto.getUsername()) != null) {
+        if (userRepository.findByUsername(dto.getUsername()).isPresent()) {
             throw new Exception("Username already exists");
         }
         if (userRepository.existsByEmail(dto.getEmail())) {

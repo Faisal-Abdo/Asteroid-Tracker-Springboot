@@ -1,7 +1,8 @@
 package com.example.AsteroidTracker.Services;
 
 import com.example.AsteroidTracker.DTOs.*;
-import com.example.AsteroidTracker.Models.*;
+import com.example.AsteroidTracker.Models.AsteroidData;
+import com.example.AsteroidTracker.Models.NearEarthObjects;
 import com.example.AsteroidTracker.Utils.HelperUtilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @Service
 public class AsteroidService {
@@ -26,6 +28,8 @@ public class AsteroidService {
     @Autowired
     private AIService aiService;
 
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
 
     public String getApiUrl() {
         return "https://api.nasa.gov/neo/rest/v1/feed?api_key=" + apiKey;
@@ -33,14 +37,15 @@ public class AsteroidService {
 
     public AsteroidDataDTO getData() {
         ObjectMapper mapper = new ObjectMapper();
-        AsteroidData asteroidData;
+        AsteroidData asteroidData = new AsteroidData();
         try {
             asteroidData = mapper.readValue(new URL(getApiUrl()), AsteroidData.class);
-            asteroidData = addSummaryToNearEarthObjects(asteroidData);// This reads a JSON file and converts it into an AsteroidData object.
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return AsteroidDataDTO.convertToDTO(asteroidData);
+        AsteroidDataDTO dto = AsteroidDataDTO.convertToDTO(asteroidData);
+        dto.setAiSummary(generateAsteroidSummary(asteroidData));
+        return dto;
     }
 
     public NearEarthObjectsDTO getAsteroidByID(Integer id) {
@@ -153,22 +158,71 @@ public class AsteroidService {
         return largestAsteroids.subList(0, Math.min(topN, largestAsteroids.size())).reversed();
     }
 
-/*    public AsteroidData addSummaryToNearEarthObjects(AsteroidData data) {
-        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjectsDTO asteroid : listOfAsteroids) {
-                asteroid.setAiSummary(aiService.promptWithPathVariable(asteroid.toString()));
-            }
-        }
-        return data;
-    }*/
-
     public AsteroidData addSummaryToNearEarthObjects(AsteroidData data) {
-        for (List<NearEarthObjectsDTO> listOfAsteroids : getData().getNearEarthObjects().values()) {
-            for (NearEarthObjectsDTO asteroid : listOfAsteroids) {
-                asteroid.setAiSummary(aiService.promptWithPathVariable(asteroid.toString()));
-            }
-        }
+        Map<String, List<NearEarthObjects>> updatedNearEarthObjectMap = data.getNearEarthObjects().entrySet()
+                .parallelStream() // Process map entries in parallel
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        entry -> processAsteroids(entry.getValue()) // Process asteroids concurrently
+                ));
+
+        data.setNearEarthObjects(updatedNearEarthObjectMap);
         return data;
     }
 
+    private List<NearEarthObjects> processAsteroids(List<NearEarthObjects> asteroids) {
+        List<CompletableFuture<NearEarthObjects>> futures = asteroids.stream()
+                .map(asteroid -> CompletableFuture.supplyAsync(() -> {
+                    asteroid.setAiSummary(aiService.promptWithPathVariable(asteroid.toString()));
+                    return asteroid;
+                }, executor))
+                .toList(); // Collect futures
+
+        // Wait for all tasks to complete and collect results
+        return futures.stream().map(CompletableFuture::join).toList();
+    }
+
+
+    public String generateAsteroidSummary(AsteroidData data) {
+        StringBuilder jsonBuilder = new StringBuilder();
+
+        // Append asteroid details to the StringBuilder
+        for (List<NearEarthObjects> asteroids : data.getNearEarthObjects().values()) {
+            for (NearEarthObjects asteroid : asteroids) {
+                jsonBuilder.append(asteroid.toString()); // Append asteroid details
+            }
+        }
+
+        Map<String, Object> requestMap = new HashMap<>();
+        List<Map<String, Object>> contentsList = new ArrayList<>();
+        Map<String, Object> contentsMap = new HashMap<>();
+
+        List<Map<String, String>> partsList = new ArrayList<>();
+        Map<String, String> partsMap = new HashMap<>();
+
+        // Set text content with appended asteroid data
+        String text = "Summarize the following asteroid data in a brief paragraph for a layman. "
+                + "Highlight only asteroids visible to the naked eye, posing a potential threat, "
+                + jsonBuilder;
+
+        partsMap.put("text", text);
+        partsList.add(partsMap);
+
+        contentsMap.put("parts", partsList);
+        contentsList.add(contentsMap);
+
+        requestMap.put("contents", contentsList);
+
+        try {
+            // Use Jackson's ObjectMapper to convert the requestMap to a JSON string
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonRequest = objectMapper.writeValueAsString(requestMap);
+
+            // Call the Gemini API with the generated JSON string
+            return aiService.callGeminiAPI(jsonRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error generating the request.";
+        }
+    }
 }

@@ -4,10 +4,10 @@
 
 ## 🚀 Features
 
-✅ **Dynamic Data Fetching** – Retrieves asteroid details from a backend API with timeout handling.
-✅ **Interactive Table** – Displays asteroid **ID, name, close approach date, miss distances**, and **velocity**.
-✅ **Real-Time Filtering & Highlighting** – Emphasizes key asteroids based on approach distance and speed.
-✅ **Loading Animation** – Immersive **planet animation** 🪐 during data retrieval for a seamless experience.
+✅ **Dynamic Data Fetching** – Retrieves asteroid details from a backend API with timeout handling.  
+✅ **Interactive Table** – Displays asteroid **ID, name, close approach date, miss distances**, and **velocity**.  
+✅ **Real-Time Filtering & Highlighting** – Emphasizes key asteroids based on approach distance and speed.  
+✅ **Loading Animation** – Immersive **planet animation** 🪐 during data retrieval for a seamless experience.  
 ✅ **Optimized Performance** – Handles large datasets efficiently with structured data parsing.
 
 ## 🛠 Tech Stack

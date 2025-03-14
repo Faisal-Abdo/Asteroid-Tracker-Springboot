@@ -14,7 +14,7 @@
 
 🔹 **Frontend:** HTML, CSS, JavaScript  
 🔹 **Backend API:** Spring Boot (serving asteroid data)  
-🔹 **Gemini API:** To provide a summary about the Asteroid data 
+🔹 **Gemini API:** To provide a summary about the Asteroid data  
 🔹 **Data Handling:** Fetch API with AbortController & timeout logic  
 
 ## 🚀 How It Works

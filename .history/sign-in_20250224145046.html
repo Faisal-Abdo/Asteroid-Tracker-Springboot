@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    <div id="signInSignUpPage" style="display: block">
+      <div class="form-container">
+        <h2 style="color: whitesmoke">Sign In</h2>
+        <form id="signInForm" onsubmit="handleSignIn(event)">
+          <input
+            type="text"
+            id="signInUsername"
+            placeholder="Username"
+            required
+          />
+          <input
+            type="password"
+            id="signInPassword"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Sign In</button>
+        </form>
+
+        <h2 style="color: whitesmoke">Sign Up</h2>
+        <form id="signUpForm" onsubmit="handleSignUp(event)">
+          <input
+            type="text"
+            id="signUpUsername"
+            placeholder="Username"
+            required
+          />
+          <input type="email" id="signUpEmail" placeholder="Email" required />
+          <input
+            type="password"
+            id="signUpPassword"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    // Handle Sign In
+    async function handleSignIn(event) {
+      event.preventDefault();
+      const username = document.getElementById('signInUsername').value;
+      const password = document.getElementById('signInPassword').value;
+      
+      const signinData = { username, password };
+
+      try {
+        const response = await fetch('http://localhost:8080/auth/signin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signinData)
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('token', data.token); // Store token in local storage
+          document.getElementById('signInSignUpPage').style.display = 'none'; // Hide sign-in/signup page
+          document.getElementById('mainContent').style.display = 'block'; // Show the main content
+        } else {
+          alert('Sign-in failed');
+        }
+      } catch (error) {
+        console.error('Sign-in error:', error);
+      }
+    }
+
+    // Handle Sign Up
+    async function handleSignUp(event) {
+      event.preventDefault();
+      const username = document.getElementById('signUpUsername').value;
+      const email = document.getElementById('signUpEmail').value;
+      const password = document.getElementById('signUpPassword').value;
+
+      const signupData = { username, email, password, role: 'User' };
+
+      try {
+        const response = await fetch('http://localhost:8080/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(signupData)
+        });
+
+        if (response.ok) {
+          alert('Sign-up successful. You can now sign in.');
+        } else {
+          alert('Sign-up failed');
+        }
+      } catch (error) {
+        console.error('Sign-up error:', error);
+      }
+    }
+  </script>
+</html>

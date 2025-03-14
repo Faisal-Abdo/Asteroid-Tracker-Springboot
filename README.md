@@ -19,9 +19,9 @@
 
 ## 🚀 How It Works
 
-1️⃣ The app fetches asteroid data from a Spring Boot backend.
-2️⃣ Data is parsed and displayed in a user-friendly table.
-3️⃣ A space-themed **loading animation** 🪐 appears until the data is fully loaded.
+1️⃣ The app fetches asteroid data from a Spring Boot backend.  
+2️⃣ Data is parsed and displayed in a user-friendly table.  
+3️⃣ A space-themed **loading animation** 🪐 appears until the data is fully loaded.  
 4️⃣ Filtering and highlighting mechanisms make it easy to spot critical asteroids.
 
 ## 🌍 Run the Project

@@ -1,6 +1,6 @@
 # 🌠 Asteroid Tracker
 
-**Asteroid Tracker** is a high-performance web app that fetches real-time asteroid data 🌍🚀, analyzing **potentially hazardous objects, closest approaches, and fastest-moving asteroids** to provide a clear, data-driven overview of near-Earth objects.
+**Asteroid Tracker** is a high-performance web app that fetches real-time asteroid data from NASA 🌍🚀, analyzing **potentially hazardous objects, closest approaches, and fastest-moving asteroids** to provide a clear, data-driven overview of near-Earth objects.
 
 ## 🚀 Features
 
@@ -14,6 +14,7 @@
 
 🔹 **Frontend:** HTML, CSS, JavaScript  
 🔹 **Backend API:** Spring Boot (serving asteroid data)  
+🔹 **Gemini API:** To provide a summary about the Asteroid data 
 🔹 **Data Handling:** Fetch API with AbortController & timeout logic  
 
 ## 🚀 How It Works

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asteroid Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style2.css" />
+    <link rel="stylesheet" href="animations.css" />
+    <link rel="stylesheet" href="EarthAnimation.css" />
+  </head>
+  <body>
+    <div id="BackgroundHeader">
+      <button class="Btn" onclick="Logout()">
+        <div class="sign">
+          <svg viewBox="0 0 512 512">
+            <path
+              d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+            ></path>
+          </svg>
+        </div>
+        <div class="text">Logout</div>
+      </button>
+
+      <h1 class="1stHeading">Asteroid Tracker</h1>
+      <br />
+      <h3 id="holyVerse">
+        ﴾وَجَعَلْنَا السَّمَاءَ سَقْفًا مَّحْفُوظًا ۖ وَهُمْ عَنْ آيَاتِهَا
+        مُعْرِضُونَ﴿
+        <br />
+        [ سورة الأنبياء: 32]
+      </h3>
+    </div>
+
+    <div id="AllContent">
+      <div class="form-container">
+        <h2 style="color: whitesmoke">Filter by</h2>
+        <select id="filterSelect" onchange="updateFields()">
+          <option value="">Select a filter</option>
+          <option value="AsteroidByID">Asteroid By ID</option>
+          <option value="AsteroidsByTodayDate">
+            Asteroids By Today's Date
+          </option>
+          <option value="getAsteroidsWithinDateRange">
+            Asteroids Within Date Range
+          </option>
+          <option value="getAsteroidsLargerThan">Asteroids Larger Than</option>
+          <option value="getPotentiallyHazardousAsteroids">
+            Potentially Hazardous Asteroids
+          </option>
+          <option value="getClosestAsteroidsByDistance">
+            Closest Asteroids By Distance
+          </option>
+          <option value="getFastestAsteroids">Fastest Asteroids</option>
+          <option value="getLargestAsteroids">Largest Asteroids</option>
+        </select>
+
+        <div id="dynamicFields"></div>
+        <button id="filterButton">Apply Filter</button>
+      </div>
+
+      <div id="loading-overlay" class="hideLoader">
+        <div class="content">
+          <div class="planet">
+            <div class="ring"></div>
+            <div class="cover-ring"></div>
+            <div class="spots">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <p>loading</p>
+        </div>
+      </div>
+
+      <h3
+        style="
+          color: whitesmoke;
+          font-family: monospace;
+          font-weight: bolder;
+          font-size: x-large;
+          margin-left: 1rem;
+          font-size: 28px;
+        "
+      >
+        Near Earth Objects AI based Summary
+      </h3>
+      <p
+        id="aiSummary"
+        style="
+          color: whitesmoke;
+          font-family: monospace;
+          margin-left: 2rem;
+          margin-top: 0.1rem;
+          text-align: left;
+          width: 77rem;
+          font-size: 18px;
+        "
+      ></p>
+      <h6
+        style="
+          color: whitesmoke;
+          text-align: left;
+          margin-left: 2rem;
+          font-size: larger;
+          margin-bottom: -1rem;
+        "
+      >
+        Number of Asteroids: <span id="rowCount"></span>
+      </h6>
+      <div class="data">
+        <table>
+          <thead>
+            <tr id="mainTableHeadRow">
+              <th rowspan="2">ID</th>
+              <th rowspan="2">Asteroid Name</th>
+              <th rowspan="2">Close Approach Date</th>
+              <th colspan="3" id="tableH">Close Approach Distance</th>
+              <th rowspan="2">Approach Speed (km/h)</th>
+            </tr>
+            <tr>
+              <th><span>Kilometers (km)</span></th>
+              <th>Lunar Distance (LD)</th>
+              <th>Miles (m)</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <div class="solar">
+          <i class="mercury"></i>
+          <i class="venus"></i>
+          <i class="earth"></i>
+          <i class="mars"></i>
+          <i class="belt"></i>
+          <i class="jupiter"></i>
+          <i class="saturn"></i>
+          <i class="uranus"></i>
+          <i class="neptune"></i>
+        </div>
+
+        <div class="section-banner">
+          <div id="star-1">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-2">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-3">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-4">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-5">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-6">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-7">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+        </div>
+
+        <p>&copy; Faisal Al Busaidi Product Line. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script src="Js/signLogic.js"></script>
+    <script>
+      function Logout() {
+        const token = localStorage.removeItem("token");
+        window.location.href = "sign-in.html";
+      }
+    </script>
+    <script>
+      window.displayNoOfRows = function () {
+        const tableBody = document.querySelector("tbody");
+        const noOfRows = tableBody.getElementsByTagName("tr").length;
+        document.getElementById("rowCount").innerHTML = noOfRows;
+      };
+      window.onload = displayNoOfRows;
+    </script>
+    <script src="Js/inputFields.js"></script>
+    <script src="Js/filterLogic.js"></script>
+    <script>
+      document
+        .getElementById("filterButton")
+        .addEventListener("click", applyFilter);
+    </script>
+    <script>
+            if (localStorage.getItem("token") == null) {
+              window.location.href = "sign-in.html";
+            } else {
+              const token = localStorage.getItem("token");
+              const myHeaders = new Headers();
+              myHeaders.append("Authorization", `Bearer ${token}`);
+
+              const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow",
+              };
+
+
+              const DEFAULT_TIMEOUT = 30000;
+
+              const overlay = document.getElementById("loading-overlay");
+               // Debugging: Check if overlay exists
+              if (!overlay) {
+                
+                console.error("Loading overlay element not found!");
+              }
+
+
+              function createTimer(milliseconds) {
+                return new Promise((resolve) => {
+                  setTimeout(resolve, milliseconds);
+                });
+              }
+
+              async function fetchDataWithTimeout(url, timeoutMs, requestOptions) {
+                const controller = new AbortController();
+                const signal = controller.signal;
+
+                const timeoutId = setTimeout(() => {
+                  controller.abort();
+                }, timeoutMs);
+
+                document.getElementById("loading-overlay").classList.remove("hideLoader"); // Show loading
+
+                try {
+                  const response = await fetch(url, { ...requestOptions, signal });
+
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                  }
+                  return await response.json();
+
+                } catch (error) {
+                  console.error("Fetch error:", error);
+                  clearTimeout(timeoutId);
+                  throw error;
+                } finally{
+                  document.getElementById("loading-overlay").classList.add("hideLoader")
+                }
+
+              }
+
+              function fetchDataWithDefaultTimeout(url, requestOptions) {
+                return fetchDataWithTimeout(url, DEFAULT_TIMEOUT, requestOptions);
+              }
+
+              console.log("Request Headers:", requestOptions.headers);
+
+              const url = "http://localhost:8080/Asteroids/getAllAsteroidData";
+
+              fetchDataWithDefaultTimeout(url, requestOptions)
+                .then((data) => {
+                  console.log(data.aiSummary);
+
+                  const aiPara = document.getElementById("aiSummary");
+                  aiPara.append(data.aiSummary);
+
+                  const nearEarthObjects = Object.values(
+                    data.nearEarthObjects
+                  ).flat();
+
+                  const table = document.querySelector("tbody");
+
+                  nearEarthObjects.forEach((asteroid) => {
+                    const closeApproach = asteroid.closeApproachData[0];
+
+                    const tableRow = document.createElement("tr");
+
+                    const rowData = [
+                      asteroid.id,
+                      `<a href="https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=${asteroid.id}&view=VOP" target="_blank">${asteroid.name}</a>`,
+                      closeApproach.closeApproachDate,
+                      closeApproach.missDistance.kilometers,
+                      closeApproach.missDistance.lunar,
+                      closeApproach.missDistance.miles,
+                      closeApproach.relativeVelocity.kilometersPerHour,
+                    ];
+
+                    rowData.forEach((value) => {
+                      const tableData = document.createElement("td");
+                      tableData.innerHTML = value;
+                      tableRow.appendChild(tableData);
+                    });
+
+                    displayNoOfRows();
+
+                    table.appendChild(tableRow);
+                  });
+                })
+                .catch((error) => console.error("Error fetching data:", error))
+            }
+    </script>
+  </body>
+</html>

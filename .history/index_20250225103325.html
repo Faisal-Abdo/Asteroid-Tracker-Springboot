@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asteroid Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style2.css" />
+    <link rel="stylesheet" href="animations.css" />
+    <link rel="stylesheet" href="EarthAnimation.css" />
+  </head>
+  <body>
+    <div id="BackgroundHeader">
+      <h1 class="1stHeading">Asteroid Tracker</h1>
+      <br />
+      <h3 id="holyVerse">
+        ﴾وَجَعَلْنَا السَّمَاءَ سَقْفًا مَّحْفُوظًا ۖ وَهُمْ عَنْ آيَاتِهَا
+        مُعْرِضُونَ﴿
+        <br />
+        [ سورة الأنبياء: 32]
+      </h3>
+    </div>
+
+    <div id="AllContent">
+      <div class="form-container">
+        <h2 style="color: whitesmoke">Filter by</h2>
+        <select id="filterSelect" onchange="updateFields()">
+          <option value="">Select a filter</option>
+          <option value="AsteroidByID">Asteroid By ID</option>
+          <option value="AsteroidsByTodayDate">
+            Asteroids By Today’s Date
+          </option>
+          <option value="getAsteroidsWithinDateRange">
+            Asteroids Within Date Range
+          </option>
+          <option value="getAsteroidsLargerThan">Asteroids Larger Than</option>
+          <option value="getPotentiallyHazardousAsteroids">
+            Potentially Hazardous Asteroids
+          </option>
+          <option value="getClosestAsteroidsByDistance">
+            Closest Asteroids By Distance
+          </option>
+          <option value="getFastestAsteroids">Fastest Asteroids</option>
+          <option value="getLargestAsteroids">Largest Asteroids</option>
+        </select>
+      </div>
+      <div id="dynamicFields"></div>
+      <button onclick="applyFilter()">Apply Filter</button>
+
+      <h3
+        style="
+          color: whitesmoke;
+          font-family: monospace;
+          font-weight: bolder;
+          font-size: x-large;
+          margin-left: 1rem;
+          font-size: 28px;
+        "
+      >
+        Near Earth Objects
+      </h3>
+      <p
+        style="
+          color: whitesmoke;
+          font-family: monospace;
+          margin-left: 2rem;
+          margin-top: 0.1rem;
+          text-align: left;
+          width: 77rem;
+          font-size: 18px;
+        "
+      >
+        The following table provides a comprehensive list of all known upcoming
+        close approaches by Near Earth Objects (NEOs) expected to occur within
+        the next days. The data includes detailed information on the closest
+        approach dates, distances (measured in kilometers and Astronomical
+        Units), and approach speeds. The table employs the following color
+        coding to enhance readability and highlight key information:
+      </p>
+      <h6
+        style="
+          color: whitesmoke;
+          text-align: left;
+          margin-left: 2rem;
+          font-size: larger;
+          margin-bottom: -1rem;
+        "
+      >
+        Number of Asteroids: <span id="rowCount"></span>
+      </h6>
+      <div class="data">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">ID</th>
+              <th rowspan="2">Asteroid Name</th>
+              <th rowspan="2">Close Approach Date</th>
+              <th colspan="3" id="tableH">Close Approach Distance</th>
+              <th rowspan="2">Approach Speed (km/h)</th>
+              <th rowspan="2">AI generated summary</th>
+            </tr>
+            <tr>
+              <th><span>Kilometers (km)</span></th>
+              <th>Lunar Distance (LD)</th>
+              <th>Miles (m)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data rows go here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <div class="solar">
+          <i class="mercury"></i>
+          <i class="venus"></i>
+          <i class="earth"></i>
+          <i class="mars"></i>
+          <i class="belt"></i>
+          <i class="jupiter"></i>
+          <i class="saturn"></i>
+          <i class="uranus"></i>
+          <i class="neptune"></i>
+        </div>
+
+        <!-- From Uiverse.io by Lakshay-art -->
+        <div class="section-banner">
+          <div id="star-1">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-2">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-3">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-4">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-5">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-6">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+
+          <div id="star-7">
+            <div class="curved-corner-star">
+              <div id="curved-corner-bottomright"></div>
+              <div id="curved-corner-bottomleft"></div>
+            </div>
+            <div class="curved-corner-star">
+              <div id="curved-corner-topright"></div>
+              <div id="curved-corner-topleft"></div>
+            </div>
+          </div>
+        </div>
+
+        <p>&copy; Faisal Al Busaidi Product Line. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script src="Js/signLogic.js"></script>
+    <script>
+      if (localStorage.getItem("authenticatedUser") !== "true") {
+        window.location.href = "sign-in.html";
+      } else {
+        const token = localStorage.getItem("token");
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `Bearer ${token}`);
+
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+        };
+
+        const DEFAULT_TIMEOUT = 30000;
+
+        function createTimer(milliseconds) {
+          return new Promise((resolve) => {
+            setTimeout(resolve, milliseconds);
+          });
+        }
+
+        async function fetchDataWithTimeout(url, timeoutMs, requestOptions) {
+          const controller = new AbortController();
+          const signal = controller.signal;
+
+          const timeoutId = setTimeout(() => {
+            controller.abort();
+          }, timeoutMs);
+
+          try {
+            const response = await fetch(url, { ...requestOptions, signal });
+            createTimer(10000);
+            //clearTimeout(timeoutId);
+
+            if (!response.ok) {
+              throw new Error("HTTP error! Status: ${response.status}");
+            }
+
+            return await response.json();
+          } catch (error) {
+            console.error("Fetch error:", error);
+            clearTimeout(timeoutId);
+            throw error;
+          }
+        }
+
+        async function fetchDataWithDefaultTimeout(url, requestOptions) {
+          return fetchDataWithTimeout(url, DEFAULT_TIMEOUT, requestOptions);
+        }
+
+        console.log("Request Headers:", requestOptions.headers);
+
+        const url = "http://localhost:8080/Asteroids/getAllAsteroidData";
+
+        fetchDataWithDefaultTimeout(url, requestOptions)
+          .then((data) => {
+            console.log(data.nearEarthObjects);
+
+            const nearEarthObjects = Object.values(
+              data.nearEarthObjects
+            ).flat();
+            const table = document.querySelector("table");
+
+            nearEarthObjects.forEach((asteroid) => {
+              const closeApproach = asteroid.closeApproachData[0]; // the array has one list
+
+              const tableRow = document.createElement("tr");
+
+              const rowData = [
+                asteroid.id,
+                `<a
+                href="https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html#/?sstr=${asteroid.id}&view=VOP"
+                target="_blank"
+              >
+                ${asteroid.name}
+              </a>`,
+                closeApproach.closeApproachDate,
+                closeApproach.missDistance.kilometers,
+                closeApproach.missDistance.lunar,
+                closeApproach.missDistance.miles,
+                closeApproach.relativeVelocity.kilometersPerHour,
+              ];
+
+              rowData.forEach((value) => {
+                const tableData = document.createElement("td");
+                tableData.innerHTML = value;
+                tableRow.appendChild(tableData);
+              });
+
+              displayNoOfRows();
+
+              table.appendChild(tableRow);
+            });
+          })
+          .catch((error) => console.error("Error fetching data:", error));
+      }
+    </script>
+    <script>
+      function displayNoOfRows() {
+        const table = document.querySelector("table");
+        const noOfRows = table.getElementsByTagName("tr").length - 1;
+        document.getElementById("rowCount").innerHTML = noOfRows;
+      }
+      window.onload = displayNoOfRows;
+    </script>
+    <script src="Js/inputFields.js"></script>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style2.css" />
+    <title>Sign Up</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: #1f2833
+          url("https://source.unsplash.com/1600x900/?galaxy,stars") no-repeat
+          center center/cover;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background: rgba(31, 40, 51, 0.85);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        text-align: center;
+        width: 300px;
+      }
+
+      h2 {
+        font-family: monospace;
+        margin-bottom: 15px;
+        font-size: 22px;
+      }
+
+      input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        background: #0b0c10;
+        color: #66fcf1;
+        font-size: 16px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        background: #66fcf1;
+        color: #0b0c10;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover {
+        background: #45a29e;
+      }
+
+      a {
+        color: #66fcf1;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>🌌 Sign Up</h2>
+      <form id="signUpForm" onsubmit="handleSignUp(event)">
+        <input
+          type="text"
+          id="signUpUsername"
+          placeholder="Username"
+          required
+        />
+        <input type="email" id="signUpEmail" placeholder="Email" required />
+        <input
+          type="password"
+          id="signUpPassword"
+          placeholder="Password"
+          required
+        />
+        <div class="success" style="display: none">
+          <div class="success__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              viewBox="0 0 24 24"
+              height="24"
+              fill="none"
+            >
+              <path
+                fill-rule="evenodd"
+                fill="#393a37"
+                d="m12 1c-6.075 0-11 4.925-11 11s4.925 11 11 11 11-4.925 11-11-4.925-11-11-11zm4.768 9.14c.0878-.1004.1546-.21726.1966-.34383.0419-.12657.0581-.26026.0477-.39319-.0105-.13293-.0475-.26242-.1087-.38085-.0613-.11844-.1456-.22342-.2481-.30879-.1024-.08536-.2209-.14938-.3484-.18828s-.2616-.0519-.3942-.03823c-.1327.01366-.2612.05372-.3782.1178-.1169.06409-.2198.15091-.3027.25537l-4.3 5.159-2.225-2.226c-.1886-.1822-.4412-.283-.7034-.2807s-.51301.1075-.69842.2929-.29058.4362-.29285.6984c-.00228.2622.09851.5148.28067.7034l3 3c.0983.0982.2159.1748.3454.2251.1295.0502.2681.0729.4069.0665.1387-.0063.2747-.0414.3991-.1032.1244-.0617.2347-.1487.3236-.2554z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
+          </div>
+          <div class="success__title">User registered sucessfully</div>
+          <div class="success__close">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              viewBox="0 0 20 20"
+              height="20"
+            >
+              <path
+                fill="#393a37"
+                d="m15.8333 5.34166-1.175-1.175-4.6583 4.65834-4.65833-4.65834-1.175 1.175 4.65833 4.65834-4.65833 4.6583 1.175 1.175 4.65833-4.6583 4.6583 4.6583 1.175-1.175-4.6583-4.6583z"
+              ></path>
+            </svg>
+          </div>
+        </div>
+        <button type="submit">Sign Up</button>
+      </form>
+      <p style="top: 0.5rem; position: relative">
+        Already have an account? <a href="sign-in.html">Sign In</a>
+      </p>
+    </div>
+    <script>
+      async function handleSignUp(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("signUpUsername").value;
+        const email = document.getElementById("signUpEmail").value;
+        const signUpPassword = document.getElementById("signUpPassword").value;
+
+        async function hashPassword(passwordToHash) {
+          const encoder = new TextEncoder();
+          const data = encoder.encode(passwordToHash);
+          const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          return hashArray
+            .map((byte) => byte.toString(16).padStart(2, "0"))
+            .join("");
+        }
+
+        const role = "User";
+
+        const password = await hashPassword(signUpPassword);
+
+        // const response = await fetch("http://localhost:8080/auth/signup", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({ username, email, password, role }),
+        // });
+
+        if (localStorage.getItem(username)) {
+          alert("Username already exists. Choose another.");
+        } else {
+          document.getElementsByClassName("success")[0].style.display = "flex";
+          document.getElementById("signUpForm").reset();
+        }
+      }
+    </script>
+  </body>
+</html>

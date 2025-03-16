@@ -27,13 +27,7 @@
 
 ## 🌍 Run the Project
 
-1️⃣ Clone this repo:  
-```bash
-git clone https://github.com/your-repo/asteroid-tracker.git
-cd asteroid-tracker
-```
-2️⃣ Start the backend (Spring Boot) server.  
-3️⃣ Open `index.html` in a browser and watch the asteroids fly in! 🚀  
+watch the asteroids fly in! 🚀  
 
 ---
 
